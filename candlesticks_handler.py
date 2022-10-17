@@ -56,17 +56,17 @@ def f_klines_by_datetime(symbol: str, interval: str, start_datetime: datetime = 
     f_path = path(symbol, interval, start_datetime, end_datetime)
 
     if os.path.exists(f_path) and os.path.isfile(f_path):
-        df = f_klines_fix(pd.read_csv(f_path, index_col=0))
-    else:
-        df = pd.DataFrame()
+        return f_klines_fix(pd.read_csv(f_path, index_col=0))
 
-    start_unix = int(time.mktime(start_datetime.timetuple()))
-    end_unix = int(time.mktime(end_datetime.timetuple()))
+    start_unix = calendar.timegm(start_datetime.timetuple())
+    end_unix = calendar.timegm(end_datetime.timetuple())
 
     unix_curr = calendar.timegm(datetime.utcnow().utctimetuple())
     end_unix = unix_curr if end_unix > unix_curr else end_unix
 
     limit = 1500
+
+    df = pd.DataFrame()
 
     while start_unix + interval_to_seconds(interval) < end_unix:
         klines = f_klines(symbol, interval, start_unix,
@@ -82,6 +82,8 @@ def f_klines_by_datetime(symbol: str, interval: str, start_datetime: datetime = 
 
     if not os.path.exists(f_klines_dir):
         os.mkdir(f_klines_dir)
+
+    df = df.loc[df[UNIX_TIME] <= end_unix]
 
     df.to_csv(path(symbol, interval, start_datetime, end_datetime))
 
