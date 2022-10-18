@@ -4,7 +4,7 @@ import math
 
 
 class VolatilityIndex(bt.Indicator):
-    lines = ('volatility_index', )
+    lines = ('volatility_index',)
 
     params = (('period', 14),)
 
@@ -13,7 +13,7 @@ class VolatilityIndex(bt.Indicator):
 
 
 class Log(bt.Indicator):
-    lines = ('log', )
+    lines = ('log',)
 
     def next(self):
         if len(self) > 0:
@@ -23,7 +23,7 @@ class Log(bt.Indicator):
 class Pivothigh(bt.Indicator):
     lines = ('pivothigh',)
 
-    params = (('n', 3), ('fixnan', True), )
+    params = (('n', 3), ('fixnan', True))
 
     def next(self):
         if len(self) - 1 >= self.params.n * 2:
@@ -47,7 +47,7 @@ class Pivothigh(bt.Indicator):
 class Pivotlow(bt.Indicator):
     lines = ('pivotlow',)
 
-    params = (('n', 3), ('fixnan', True), )
+    params = (('n', 3), ('fixnan', True))
 
     def next(self):
         if len(self) - 1 >= self.params.n * 2:

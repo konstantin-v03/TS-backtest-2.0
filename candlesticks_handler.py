@@ -98,6 +98,7 @@ def f_klines_fix(df, unit: str = None):
     df[LOW] = df[LOW].astype('float')
     df[CLOSE] = df[CLOSE].astype('float')
     df[VOLUME] = df[VOLUME].astype('float')
+
     df[CLOSE_TIME] = pd.to_datetime(df[CLOSE_TIME], unit=unit)
     df[QUOTE_ASSET_VOLUME] = df[QUOTE_ASSET_VOLUME].astype('float')
     df[NUMBER_OF_TRADES] = df[NUMBER_OF_TRADES].astype('int')
@@ -105,6 +106,13 @@ def f_klines_fix(df, unit: str = None):
     df[TAKER_BUY_QUOTE_ASSET_VOLUME] = df[TAKER_BUY_QUOTE_ASSET_VOLUME].astype('float')
 
     return df
+
+    # return df.drop([CLOSE_TIME,
+    #          QUOTE_ASSET_VOLUME,
+    #          NUMBER_OF_TRADES,
+    #          TAKER_BUY_BASE_ASSET_VOLUME,
+    #          TAKER_BUY_QUOTE_ASSET_VOLUME],
+    #         axis=1)
 
 
 def path(symbol: str, interval: str, start_datetime: datetime, end_datetime: datetime):
