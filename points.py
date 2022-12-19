@@ -1,11 +1,10 @@
 import numpy as np
 import backtrader as bt
 import indicators as ind
-import math
 
 
 class Points(bt.Strategy):
-    lines = ('s_condition1', 'l_condition1', 's_condition2', 'l_condition2')
+    lines = ('s_condition1', 'l_condition1', 's_condition2', 'l_condition2', 'long_stop_loss', 'short_stop_loss')
 
     params = dict(period=96, con_max_bars_back=30, trade_min_bars_back=85, atr_period=14)
 
@@ -65,17 +64,11 @@ class Points(bt.Strategy):
 
         if self.lines.s_condition2[0] and \
                 np.isnan(self.bars_back(self.lines.s_condition2, self.params.trade_min_bars_back)):
-            if self.position.size > 0:
-                self.close()
-
             if self.position.size == 0:
                 self.sell()
 
         if self.lines.l_condition2[0] and \
                 np.isnan(self.bars_back(self.lines.l_condition2, self.params.trade_min_bars_back)):
-            if self.position.size < 0:
-                self.close()
-
             if self.position.size == 0:
                 self.buy()
 
